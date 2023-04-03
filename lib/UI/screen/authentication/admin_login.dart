@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:pensionsystem/UI/constant/colors.dart';
 import 'package:pensionsystem/UI/constant/responsiveness.dart';
 import 'package:pensionsystem/UI/constant/size.dart';
 import 'package:pensionsystem/UI/constant/text_styles.dart';
 import 'package:pensionsystem/UI/responsiveState/view_state.dart';
+import 'package:pensionsystem/UI/screen/admin/admin_dashboard.dart';
 import 'package:pensionsystem/widget/custom_button_load.dart';
 import 'package:provider/provider.dart';
 
@@ -86,6 +88,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   child: CustomButtonLoad(
                       userProv: ViewState.Idle,
                       onTap: () async {
+                        Get.to(AdminDashboard());
                         // if (!_key.currentState!.validate()) return;
 
                         // bool response = await authProv.login(

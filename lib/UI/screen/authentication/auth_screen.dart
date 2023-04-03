@@ -9,6 +9,8 @@ import 'package:pensionsystem/UI/screen/authentication/admin_login.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constant/sizeconfig.dart';
+
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
 
@@ -16,18 +18,25 @@ class AuthScreen extends StatefulWidget {
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
-@override
-void initState() {
-  clearData();
-}
+// @override
+// void initState() {
+//   // clearData();
+// }
 
-clearData() async {
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  preferences.clear();
-}
+
+// clearData() async {
+//   SharedPreferences preferences = await SharedPreferences.getInstance();
+//   preferences.clear();
+// }
 
 class _AuthScreenState extends State<AuthScreen> {
-  String authType = 'staff';
+
+   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    SizeConfig().init(context);
+  }
+  String authType = 'admin';
 
   bool login = false;
   bool register = false;
