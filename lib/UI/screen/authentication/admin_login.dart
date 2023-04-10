@@ -30,76 +30,85 @@ class _AdminLoginState extends State<AdminLogin> {
     final userProv = Provider.of<UserProvider>(context);
 
     Size size = MediaQuery.of(context).size;
-    return Material(
-      child: Container(
-        width: responsive.isMobile(context)
-            ? size.width
-            : responsive.isTablet(context)
-                ? size.width / 2
-                : size.width / 3,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: appPrimaryColor,
+    return Form(
+      key: _key,
+      child: Material(
+        child: Container(
+          width: responsive.isMobile(context)
+              ? size.width
+              : responsive.isTablet(context)
+                  ? size.width / 2
+                  : size.width / 3,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: appPrimaryColor,
+              ),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Hello admin',
+                  style: txStyle25,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomTextField(
+                  labelText: 'Email address',
+                  hintText: 'pretevest@example.com',
+                  controller: email,
+                  validator: (value) => userProv.validateEmail(value!),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomTextField(
+                  labelText: 'Password',
+                  hintText: '••••••••',
+                  obscureText: true,
+                  controller: password,
+                  validator: (value) => userProv.validatePassword(value!),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Having difficulties remembering your password?',
+                  style: txStyle12,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: CustomButtonLoad(
+                        userProv: ViewState.Idle,
+                        onTap: () async {
+                          // if (!_key.currentState!.validate()) return;
+
+                          // bool response = await userProv.adminLogin(
+                          //     email.text, password.text);
+                          bool response = await userProv.adminLogin(
+                              'akindoyin@gmail.com', 'password');
+
+                          if (response) {
+                            bool response1 = await userProv.fetchAdminProfile();
+
+                            if (response1) {
+                              userProv.fetchOrganizationStaff();
+                              Get.to(AdminDashboard());
+                            }
+                          }
+                        },
+                        label: 'Login')),
+              ],
             ),
-            borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Hello admin',
-                style: txStyle25,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Email address',
-                hintText: 'pretevest@example.com',
-                controller: email,
-                validator: (value) => userProv.validateEmail(value!),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                labelText: 'Password',
-                hintText: '••••••••',
-                obscureText: true,
-                controller: password,
-                validator: (value) => userProv.validatePassword(value!),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Having difficulties remembering your password?',
-                style: txStyle12,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                  child: CustomButtonLoad(
-                      userProv: ViewState.Idle,
-                      onTap: () async {
-                        Get.to(AdminDashboard());
-                        // if (!_key.currentState!.validate()) return;
-
-                        // bool response = await authProv.login(
-                        //     email.text, password.text);
-
-                        // if (response) {
-
-                        // }
-                      },
-                      label: 'Login')),
-            ],
           ),
         ),
       ),

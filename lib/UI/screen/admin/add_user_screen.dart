@@ -1,19 +1,21 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:pensionsystem/UI/constant/colors.dart';
 import 'package:pensionsystem/UI/constant/size.dart';
 import 'package:pensionsystem/UI/constant/sizeconfig.dart';
+import 'package:pensionsystem/UI/constant/text_styles.dart';
 import 'package:pensionsystem/widget/custom_app_bar.dart';
 import 'package:pensionsystem/widget/custom_button.dart';
 import 'package:pensionsystem/widget/custom_txt_field.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/repositories/user_repository.dart';
 import '../../../services/image_picker_service.dart';
 
 class AddUserScreen extends StatefulWidget {
@@ -27,22 +29,36 @@ class _AddUserScreenState extends State<AddUserScreen> {
   // File? file;
   // String _filePath = "";
   Uint8List? _image;
+  String? _imagePath;
+
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController OtherName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController department = TextEditingController();
+  TextEditingController designation = TextEditingController();
+  TextEditingController salary = TextEditingController();
 
   selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
+    List imageData = await pickImage(ImageSource.gallery);
+
     // set state because we need to display the image we selected on the circle avatar
     setState(() {
-      _image = im;
+      _image = imageData.elementAt(1);
+      _imagePath = imageData.elementAt(0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProv = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: CustomAppBar(title: "Create user profile"),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.widthOf(5)),
-        child: Column(
+        child: ListView(
           children: [
             Center(
               child: InkWell(
@@ -64,44 +80,124 @@ class _AddUserScreenState extends State<AddUserScreen> {
               ),
             ),
             vertical20,
+            Text(
+              "Personal Info",
+              style: txStyle14,
+            ),
+            vertical10,
             CustomTextField(
               labelText: "First Name",
               hintText: 'John',
+              controller: firstName,
             ),
             vertical10,
             CustomTextField(
               labelText: "Last Name",
               hintText: 'Doe',
+              controller: lastName,
             ),
             vertical10,
             CustomTextField(
               labelText: "Other Names",
               hintText: 'Felix',
+              controller: OtherName,
             ),
             vertical10,
             CustomTextField(
               labelText: "Email",
               hintText: 'John@gmail.com',
+              controller: email,
             ),
             vertical10,
             CustomTextField(
               labelText: "Phone number",
               hintText: '090***********',
+              controller: phoneNumber,
+            ),
+            vertical30,
+            Text(
+              "Work Profile",
+              style: txStyle14,
             ),
             vertical10,
             CustomTextField(
               labelText: "Department",
               hintText: 'Academic',
+              controller: department,
             ),
             vertical10,
             CustomTextField(
-              labelText: "Role",
+              labelText: "Designation",
               hintText: 'Head teacher',
+              controller: designation,
             ),
             vertical10,
+            CustomTextField(
+              labelText: "Agreed Salary",
+              hintText: '#####',
+              controller: salary,
+            ),
+            vertical30,
             SizedBox(
                 width: SizeConfig.screenWidth! / 2.5,
-                child: CustomButton(onTap: () {}, label: "Submit"))
+                child: CustomButton(
+                    onTap: () async {
+                      print(_imagePath);
+                      bool u = await userProv.createStaffProfile(
+                        firstName: firstName.text,
+                        lastName: lastName.text,
+                        otherName: OtherName.text,
+                        email: email.text,
+                        phone: phoneNumber.text,
+                        department: department.text,
+                        designation: designation.text,
+                        salary: salary.text,
+                        profilePicture: _image,
+                      );
+                      if (u) {
+                        Get.defaultDialog(
+                            title: "Staff Added!",
+                            titlePadding: const EdgeInsets.only(top: 20),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 20),
+                            backgroundColor: Colors.white,
+                            titleStyle: txStyle20,
+                            barrierDismissible: true,
+                            confirm: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: InkWell(
+                                onTap: () async {
+                                  userProv.fetchOrganizationStaff();
+                                  Get.close(2);
+                                },
+                                child: Container(
+                                  height: 35,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: appPrimaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                    "Ok",
+                                    style: txStyle14wt,
+                                  )),
+                                ),
+                              ),
+                            ),
+                            radius: 6,
+                            content: Column(
+                              children: [
+                                Text(
+                                  "Staff profile created! You can view details by clicking on a staff",
+                                  textAlign: TextAlign.center,
+                                  style: txStyle14.copyWith(height: 1.5),
+                                )
+                              ],
+                            ));
+                      }
+                    },
+                    label: "Submit"))
           ],
         ),
       ),
