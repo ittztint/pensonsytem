@@ -82,7 +82,7 @@ class UserProvider extends BaseNotifier with Validators {
         "password": password,
       };
       var responsebody =
-          await API().post(apiRoute.adminLogin, header, jsonEncode(val));
+          await API().post(apiRoute.staffLogin, header, jsonEncode(val));
       var response = jsonDecode(responsebody);
       SessionManager().saveString("SToken", response["token"]);
 

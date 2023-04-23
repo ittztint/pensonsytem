@@ -19,8 +19,8 @@ import 'package:provider/provider.dart';
 import '../../../core/repositories/user_repository.dart';
 import '../authentication/auth_screen.dart';
 
-class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({super.key});
+class UserDashboard extends StatelessWidget {
+  const UserDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +45,6 @@ class AdminDashboard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      // Text(
-                      //   "Pension system",
-                      //   style: txStyle14Bold,
-                      // ),
-                      // horizontalx10,
-                      SizedBox(
-                          width: 200,
-                          child: SmallCustomTextField(
-                            hintText: "Search system",
-                            prefix: Icon(Icons.search),
-                          )),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       Container(
                         height: 50,
                         width: 50,
@@ -77,7 +62,7 @@ class AdminDashboard extends StatelessWidget {
                           ),
                           // vertical5,
                           Text(
-                            "Admin",
+                            "Staff",
                             style: txStyle12,
                           )
                         ],

@@ -90,12 +90,12 @@ class _AdminLoginState extends State<AdminLogin> {
                     child: CustomButtonLoad(
                         userProv: ViewState.Idle,
                         onTap: () async {
-                          // if (!_key.currentState!.validate()) return;
+                          if (!_key.currentState!.validate()) return;
 
-                          // bool response = await userProv.adminLogin(
-                          //     email.text, password.text);
                           bool response = await userProv.adminLogin(
-                              'akindoyin@gmail.com', 'password');
+                              email.text, password.text);
+                          // bool response = await userProv.adminLogin(
+                          //     'akindoyin@gmail.com', 'password');
 
                           if (response) {
                             bool response1 = await userProv.fetchAdminProfile();

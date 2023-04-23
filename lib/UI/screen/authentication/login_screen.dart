@@ -90,8 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () async {
                           if (!_key.currentState!.validate()) return;
 
-                          bool response = await userProv.adminLogin(
-                              email.text, password.text);
+                          bool response = await userProv.staffLogin(
+                              email: email.text, password: password.text);
 
                           if (response) {}
                         },

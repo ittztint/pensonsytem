@@ -4,12 +4,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pensionsystem/UI/constant/colors.dart';
 import 'package:pensionsystem/UI/constant/size.dart';
 import 'package:pensionsystem/UI/constant/text_styles.dart';
+import 'package:pensionsystem/core/model/fetch_staffs_model.dart';
+import 'package:pensionsystem/utils/utils.dart';
+import 'package:pensionsystem/widget/custom_imaga.dart';
 
 import '../../../widget/custom_button.dart';
 import '../../constant/sizeconfig.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  final OrganizationStaffModel staffInfo;
+  const UserProfileScreen({super.key, required this.staffInfo});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -25,15 +29,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             vertical120,
-            Center(
-              child: Container(
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    shape: BoxShape.circle),
-              ),
-            ),
+            Center(child: CustomNetworkImage(imageUrl: "${widget.staffInfo.profilePicture}", radius: 120,)),
             vertical50,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +45,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "Adeola Adebusuyi",
+                          capitalizeFirstText(
+                              "${widget.staffInfo.firstName} ${widget.staffInfo.lastName}"),
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -63,7 +60,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "Adeola@gmail.com",
+                          "${widget.staffInfo.email}",
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -77,7 +74,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "090123448992",
+                          "${widget.staffInfo.phone}",
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -109,7 +106,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "LAG",
+                          "${widget.staffInfo.organizationName}",
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -123,7 +120,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "Agric",
+                          "${widget.staffInfo.department}",
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -137,7 +134,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ),
                         horizontalx5,
                         Text(
-                          "032220123448992",
+                          "${widget.staffInfo.staffId}",
                           style: txStyle13.copyWith(color: Colors.grey),
                         )
                       ],
@@ -175,10 +172,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Transaction", style: txStyle14,),
-                Text("Pension Percentage", style: txStyle14,),
-                Text("Pension balance", style: txStyle14,)
-
+                Text(
+                  "Transaction",
+                  style: txStyle14,
+                ),
+                Text(
+                  "Pension Percentage",
+                  style: txStyle14,
+                ),
+                Text(
+                  "Pension balance",
+                  style: txStyle14,
+                )
               ],
             ),
             ListView.builder(
