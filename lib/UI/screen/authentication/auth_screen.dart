@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:pensionsystem/UI/constant/colors.dart';
 import 'package:pensionsystem/UI/constant/responsiveness.dart';
+import 'package:pensionsystem/UI/constant/size.dart';
 import 'package:pensionsystem/UI/constant/text_styles.dart';
 import 'package:pensionsystem/UI/screen/authentication/login_screen.dart';
 import 'package:pensionsystem/UI/screen/authentication/admin_login.dart';
@@ -23,20 +25,19 @@ class AuthScreen extends StatefulWidget {
 //   // clearData();
 // }
 
-
 // clearData() async {
 //   SharedPreferences preferences = await SharedPreferences.getInstance();
 //   preferences.clear();
 // }
 
 class _AuthScreenState extends State<AuthScreen> {
-
-   @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     SizeConfig().init(context);
   }
-  String authType = 'admin';
+
+  String authType = 'staff';
 
   bool login = false;
   bool register = false;
@@ -66,33 +67,35 @@ class _AuthScreenState extends State<AuthScreen> {
                     'PensionSystem',
                     style: txStyle27,
                   ),
-                  InkWell(
-                    onTap: () {
-                      authType == 'staff'
-                          ? setState(() {
-                              authType = 'admin';
-                            })
-                          : setState(() {
-                              authType = 'staff';
-                            });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: appPrimaryColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(6)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Center(
-                          child: Text(
-                              authType == 'staff'
-                                  ? 'continue as a admin'
-                                  : 'continue as an staff',
-                              style: txStyle16),
-                        ),
-                      ),
-                    ),
-                  )
+                  responsive.isMobile(context)
+                      ? SizedBox.shrink()
+                      : InkWell(
+                          onTap: () {
+                            authType == 'staff'
+                                ? setState(() {
+                                    authType = 'admin';
+                                  })
+                                : setState(() {
+                                    authType = 'staff';
+                                  });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: appPrimaryColor.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(6)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Center(
+                                child: Text(
+                                    authType == 'staff'
+                                        ? 'continue as a admin'
+                                        : 'continue as an staff',
+                                    style: txStyle16),
+                              ),
+                            ),
+                          ),
+                        )
                 ],
               ),
             ),
@@ -108,7 +111,42 @@ class _AuthScreenState extends State<AuthScreen> {
                       ? size.width / 2
                       : size.width / 3,
               child: buldUi(authType),
-            )
+            ),
+            vertical20,
+            responsive.isDesktop(context) || responsive.isTablet(context)
+                ? SizedBox.shrink()
+                : Center(
+                    child: Container(
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: () {
+                          authType == 'staff'
+                              ? setState(() {
+                                  authType = 'admin';
+                                })
+                              : setState(() {
+                                  authType = 'staff';
+                                });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: appPrimaryColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(6)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Center(
+                              child: Text(
+                                  authType == 'staff'
+                                      ? 'continue as a admin'
+                                      : 'continue as an staff',
+                                  style: txStyle16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

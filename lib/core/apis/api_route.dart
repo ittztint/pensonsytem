@@ -13,6 +13,6 @@ class apiRoute {
   static const staffLogin = "$base/login-staff";
 
   static const fetchAdminProfile = "$base/fetch-admin-profile";
-  static const fetchStaffProfile = "$base/login-staff";
+  static const fetchStaffProfile = "$base/fetch-staff-profile";
 
 }

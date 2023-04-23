@@ -10,6 +10,7 @@ import 'package:pensionsystem/core/apis/api_route.dart';
 import 'package:pensionsystem/core/mixins/validators.dart';
 import 'package:pensionsystem/core/model/admin_profile_model.dart';
 import 'package:pensionsystem/core/model/fetch_staffs_model.dart';
+import 'package:pensionsystem/core/model/staff_profile_model.dart';
 import 'package:pensionsystem/services/cache.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,8 +38,23 @@ class UserProvider extends BaseNotifier with Validators {
     return headerToken;
   }
 
+  Future<Map<String, String>> headerWithToken1() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // String token = prefs.getString("token")!;
+    log("this is the auth token ${await SessionManager().getString("SToken")}");
+
+    Map<String, String> headerToken = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Token ${await SessionManager().getString("SToken")}',
+    };
+    return headerToken;
+  }
+
   List<OrganizationStaffModel> fetchStaffsModel = [];
   AdminProfileModel adminProfileModel = AdminProfileModel();
+  StaffProfileModel staffProfileModel = StaffProfileModel();
+
 
   Future<bool> adminLogin(
     String? email,
@@ -85,6 +101,7 @@ class UserProvider extends BaseNotifier with Validators {
           await API().post(apiRoute.staffLogin, header, jsonEncode(val));
       var response = jsonDecode(responsebody);
       SessionManager().saveString("SToken", response["token"]);
+      fetchStaffProfile();
 
       print(response["token"]);
       print(responsebody);
@@ -187,13 +204,13 @@ class UserProvider extends BaseNotifier with Validators {
     }
   }
 
-  Future<bool> fetchStaffProfile({String? organizationId}) async {
+  Future<bool> fetchStaffProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(ViewState.Busy);
     try {
-      var responsebody = await API().get(apiRoute.fetchStaffProfile, header);
-      var response = jsonDecode(responsebody);
+      var responsebody = await API().get(apiRoute.fetchStaffProfile, await headerWithToken1());
+      staffProfileModel = staffProfileModelFromJson(responsebody);
 
       print(responsebody);
       setState(ViewState.Idle);

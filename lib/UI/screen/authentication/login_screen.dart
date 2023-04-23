@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:pensionsystem/UI/constant/colors.dart';
 import 'package:pensionsystem/UI/constant/responsiveness.dart';
 import 'package:pensionsystem/UI/constant/size.dart';
 import 'package:pensionsystem/UI/constant/text_styles.dart';
 import 'package:pensionsystem/UI/responsiveState/view_state.dart';
+import 'package:pensionsystem/UI/screen/user/user_dashboard_screen.dart';
 import 'package:pensionsystem/widget/custom_button_load.dart';
 import 'package:provider/provider.dart';
 
@@ -92,8 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           bool response = await userProv.staffLogin(
                               email: email.text, password: password.text);
+                          // bool response = await userProv.staffLogin(
+                          //     email: "berida@gmail.com", password: "password");
 
-                          if (response) {}
+                          if (response) {
+                            Get.to(UserDashboard());
+                          }
                         },
                         label: 'Login')),
               ],
