@@ -12,6 +12,7 @@ import 'package:pensionsystem/UI/responsiveState/responsive_state.dart';
 import 'package:pensionsystem/UI/screen/admin/add_user_screen.dart';
 import 'package:pensionsystem/UI/screen/admin/user_profile_screen.dart';
 import 'package:pensionsystem/UI/screen/user/investment_screen.dart';
+import 'package:pensionsystem/UI/screen/user/payroll_screen.dart';
 import 'package:pensionsystem/utils/utils.dart';
 import 'package:pensionsystem/widget/custom_imaga.dart';
 import 'package:pensionsystem/widget/small_custon_textfield.dart';
@@ -188,6 +189,13 @@ class _UserDashboardState extends State<UserDashboard> {
                     dashboardActivities(
                       activity: "Contribution summary",
                       ontap: () {},
+                    ),
+                    vertical10,
+                    dashboardActivities(
+                      activity: "Payroll",
+                      ontap: () {
+                        Get.to(PayrollScreen());
+                      },
                     ),
                     vertical10,
                     dashboardActivities(

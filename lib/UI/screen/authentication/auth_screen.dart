@@ -89,8 +89,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               child: Center(
                                 child: Text(
                                     authType == 'staff'
-                                        ? 'continue as a admin'
-                                        : 'continue as an staff',
+                                        ? 'continue as an admin'
+                                        : 'continue as a staff',
                                     style: txStyle16),
                               ),
                             ),
@@ -138,8 +138,8 @@ class _AuthScreenState extends State<AuthScreen> {
                             child: Center(
                               child: Text(
                                   authType == 'staff'
-                                      ? 'continue as a admin'
-                                      : 'continue as an staff',
+                                      ? 'continue as an admin'
+                                      : 'continue as a staff',
                                   style: txStyle16),
                             ),
                           ),

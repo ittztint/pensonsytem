@@ -90,12 +90,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: CustomButtonLoad(
                         userProv: ViewState.Idle,
                         onTap: () async {
-                          if (!_key.currentState!.validate()) return;
+                          // if (!_key.currentState!.validate()) return;
 
-                          bool response = await userProv.staffLogin(
-                              email: email.text, password: password.text);
                           // bool response = await userProv.staffLogin(
-                          //     email: "berida@gmail.com", password: "password");
+                          //     email: email.text, password: password.text);
+                          bool response = await userProv.staffLogin(
+                              email: "akinsola@gmail.com", password: "password");
 
                           if (response) {
                             Get.to(UserDashboard());

@@ -151,7 +151,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         phone: phoneNumber.text,
                         department: department.text,
                         designation: designation.text,
-                        salary: salary.text,
+                        salary: salary.text.replaceAll(",", ''),
                         profilePicture: _image,
                       );
                       if (u) {
